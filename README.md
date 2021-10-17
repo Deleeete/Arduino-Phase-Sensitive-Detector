@@ -1,3 +1,7 @@
+# **This is a modification version to use C# instead of Processing**
+
+----------------*Original README.md BELOW*--------------------------
+
 Arduino-Phase-Sensitive-Detector
 ================================
 
