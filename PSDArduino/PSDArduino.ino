@@ -115,8 +115,7 @@ void loop()
 
 ISR(TIMER2_COMPA_vect)
 { // Called when TCNT2 == OCR2A
-  signal[index] = analogRead(0);
+  signal[index] = analogRead(A0);
   OCR1AL = wave_I[index++]; // Update the PWM output
-  //asm(“NOP;NOP”); // Fine tuning
   TCNT2 = 12; // Timing to compensate for ISR run time
 }
