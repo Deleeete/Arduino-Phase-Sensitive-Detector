@@ -78,7 +78,7 @@ void setup()
     wave_I[i] = int(REF_I + OFFSET); //add offset to make positive
     wave_Q[i] = int(REF_Q + OFFSET);
   }
-
+  pinMode(8, OUTPUT);
   pinMode(9, OUTPUT);      //this is going to be where are signal comes out
   TCCR1B = (1 << CS10);    //Timer runs at 16MHz
   TCCR1A |= (1 << COM1A1); //Sets pin low when TCNT1 = OCR1A
@@ -103,15 +103,12 @@ void loop()
   {
     int hold;
     for (int i = 0; i < LENGTH; i++)
-    {
-      if (Serial.available())
-      {
+    {      
         hold = (signal[i] / 2) * (wave_I[i] - OFFSET) / 4;
-        Serial.print(hold); //send in-phase mix
+        Serial.print(hold); //send in-phase mix 
         Serial.print(',');
         hold = (signal[i] / 2) * (wave_Q[i] - OFFSET) / 4;
         Serial.println(hold); //send out-of-phase mix
-      }
     }
   }
 }
@@ -120,5 +117,5 @@ ISR(TIMER2_COMPA_vect)
 { // Called when TCNT2 == OCR2A
   signal[index] = analogRead(A0);
   OCR1AL = wave_I[index++]; // Update the PWM output
-  TCNT2 = 12;               // Timing to compensate for ISR run time
+  TCNT2 = 1;               // Timing to compensate for ISR run time
 }
