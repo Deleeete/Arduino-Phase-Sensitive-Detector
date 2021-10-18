@@ -104,11 +104,14 @@ void loop()
     int hold;
     for (int i = 0; i < LENGTH; i++)
     {
-      hold = (signal[i] / 2) * (wave_I[i] - OFFSET) / 4;
-      Serial.print(hold); //send in-phase mix
-      Serial.print(',');
-      hold = (signal[i] / 2) * (wave_Q[i] - OFFSET) / 4;
-      Serial.println(hold); //send out-of-phase mix
+      if (Serial.available())
+      {
+        hold = (signal[i] / 2) * (wave_I[i] - OFFSET) / 4;
+        Serial.print(hold); //send in-phase mix
+        Serial.print(',');
+        hold = (signal[i] / 2) * (wave_Q[i] - OFFSET) / 4;
+        Serial.println(hold); //send out-of-phase mix
+      }
     }
   }
 }
@@ -117,5 +120,5 @@ ISR(TIMER2_COMPA_vect)
 { // Called when TCNT2 == OCR2A
   signal[index] = analogRead(A0);
   OCR1AL = wave_I[index++]; // Update the PWM output
-  TCNT2 = 12; // Timing to compensate for ISR run time
+  TCNT2 = 12;               // Timing to compensate for ISR run time
 }
